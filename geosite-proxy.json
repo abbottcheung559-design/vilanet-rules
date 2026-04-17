@@ -1,0 +1,64 @@
+{
+  "version": 1,
+  "rules": [
+    {
+      "domain": [
+        "cdn.whatsapp.net"
+      ],
+      "domain_suffix": [
+        "whatsapp.com",
+        "whatsapp.net",
+        "google.com",
+        "googleapis.com",
+        "gstatic.com",
+        "youtube.com",
+        "ytimg.com",
+        "youtu.be",
+        "facebook.com",
+        "fb.com",
+        "fbcdn.net",
+        "instagram.com",
+        "cdninstagram.com",
+        "instagr.am",
+        "meta.com",
+        "twitter.com",
+        "twimg.com",
+        "x.com",
+        "t.co",
+        "tiktok.com",
+        "tiktokcdn.com",
+        "tiktokv.com",
+        "byteoversea.com",
+        "github.com",
+        "githubusercontent.com",
+        "openai.com",
+        "chatgpt.com",
+        "oaistatic.com",
+        "oaiusercontent.com",
+        "netflix.com",
+        "spotify.com",
+        "discord.com",
+        "discordapp.com",
+        "discord.gg",
+        "discordcdn.com",
+        "t.me",
+        "telegram.me",
+        "telegram.org",
+        "tdesktop.com",
+        "telegra.ph",
+        "cloudflare.com",
+        "cloudflare.net",
+        "zoom.us",
+        "clubhouseapi.com",
+        "joinclubhouse.com",
+        "dropbox.com",
+        "dropboxstatic.com",
+        "dropboxusercontent.com",
+        "duckduckgo.com"
+      ],
+      "domain_keyword": [
+        "google"
+      ]
+    }
+  ]
+}
