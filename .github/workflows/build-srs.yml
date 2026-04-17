@@ -1,49 +1,52 @@
 name: build-srs
 
 on:
-  workflow_dispatch:
   push:
-    paths:
-      - "geosite-*.json"
-      - "geoip-*.json"
-      - ".github/workflows/build-srs.yml"
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: write
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout
+      - name: Checkout repository
         uses: actions/checkout@v4
 
       - name: Set up Go
         uses: actions/setup-go@v5
         with:
-          go-version: "1.22"
+          go-version: '1.22'
+          cache: false
 
       - name: Install sing-box
         run: |
           go install github.com/sagernet/sing-box/cmd/sing-box@latest
           echo "$(go env GOPATH)/bin" >> $GITHUB_PATH
 
-      - name: Build geosite-proxy.srs
-        run: sing-box rule-set compile geosite-proxy.json -o geosite-proxy.srs
+      - name: Build SRS files
+        run: |
+          mkdir -p dist
 
-      - name: Build geosite-direct.srs
-        run: sing-box rule-set compile geosite-direct.json -o geosite-direct.srs
-
-      - name: Build geoip-proxy.srs
-        run: sing-box rule-set compile geoip-proxy.json -o geoip-proxy.srs
-
-      - name: Build geoip-direct.srs
-        run: sing-box rule-set compile geoip-direct.json -o geoip-direct.srs
+          sing-box rule-set compile geosite-proxy.json -o dist/geosite-proxy.srs
+          sing-box rule-set compile geosite-direct.json -o dist/geosite-direct.srs
+          sing-box rule-set compile geoip-proxy.json -o dist/geoip-proxy.srs
+          sing-box rule-set compile geoip-direct.json -o dist/geoip-direct.srs
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
         with:
           name: srs-files
-          path: |
-            geosite-proxy.srs
-            geosite-direct.srs
-            geoip-proxy.srs
-            geoip-direct.srs
+          path: dist/
+
+      - name: Commit dist files
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add dist/*.srs
+          git commit -m "Update SRS files" || echo "No changes to commit"
+          git push
